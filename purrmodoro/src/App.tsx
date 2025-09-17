@@ -9,6 +9,7 @@ import breakBtn from "./assets/break.png";
 import breakBtnClicked from "./assets/break-clicked.png"
 import idleGif from "./assets/idle.gif";
 import workGif from "./assets/work.gif";
+import breakGif from "./assets/break.gif";
 import meowSound from "./assets/meow.mp3";
 import closeBtn from "./assets/close.png";
 
@@ -19,6 +20,8 @@ function App() {
   const [breakBtnImage, setBreakBtnImage] = useState(breakBtn);
   const [workBtnImage, setWorkBtnImage] = useState(workBtn);
   const [coolMessage, setCoolMessage] = useState("");
+  const [gifImage, setGifImage] = useState(idleGif);
+  const [btnIcon, setBtnIcon] = useState(playImg);
 
   const cheerMessages = [
     "Você consegue!",
@@ -83,14 +86,19 @@ function App() {
     setBreakBtnImage(breakMode ? breakBtnClicked : breakBtn);
     setWorkBtnImage(breakMode ? workBtn : workBtnClicked);
     setTimeLeft(breakMode ? 5 * 60 : 25 * 60);
+    setGifImage(idleGif);
   }
 
   const handleClick = () => {
     if (!isRunning) {
       SetIsRunning(true);
+      setGifImage (isBreak ? breakGif : workGif);
+      setBtnIcon(resetImg);
     } else {
       SetIsRunning(false);
       setTimeLeft(isBreak? 5 * 60 : 25 * 60);
+      setGifImage(idleGif);
+      setBtnIcon(playImg);
     }
   }
 
@@ -113,18 +121,17 @@ function App() {
             <img src={breakBtnImage} alt="Pausinha" />
           </button>
         </div>
-      </div>
 
       <p className={`cool-message ${!isRunning ? "hidden" : ""}`}>
         { coolMessage }
       </p>
 
       <h1 className='home-timer'>{formatTime(timeLeft)}</h1>
-
+      <img src={gifImage} alt="Time" className='gif-image' />
       <button className='home-button' onClick={handleClick}>
-        Começar
+        <img src={btnIcon} alt="Button icon" />
       </button>
-
+      </div>
     </div>
   );
 
