@@ -1,11 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
 import './App.css';
+
+import playImg from "./assets/play.png";
+import resetImg from "./assets/reset.png";
+import workBtn from "./assets/work.png";
+import workBtnClicked from "./assets/work-clicked.png";
+import breakBtn from "./assets/break.png";
+import breakBtnClicked from "./assets/break-clicked.png"
+import idleGif from "./assets/idle.gif";
+import workGif from "./assets/work.gif";
+import meowSound from "./assets/meow.mp3";
+import closeBtn from "./assets/close.png";
 
 function App() {
   const [timeLeft, setTimeLeft] = useState(25*60);
   const [isRunning, SetIsRunning] = useState(false);
   const [isBreak, setIsBreak] = useState(false);
+  const [breakBtnImage, setBreakBtnImage] = useState(breakBtn);
+  const [workBtnImage, setWorkBtnImage] = useState(workBtn);
   const [coolMessage, setCoolMessage] = useState("");
 
   const cheerMessages = [
@@ -23,18 +35,18 @@ function App() {
     "Se estique um pouco!"
   ];
 
-  // Mensagens legais!
+  // Atualizando as mensagens!
   useEffect( () => {
     let messageInterval: NodeJS.Timeout;
     if (isRunning) {
       const messages = isBreak ? breakMessages : cheerMessages;
-      setCoolMessage(messages[0]); // Começa com a primeira mensagem
+      setCoolMessage(messages[0]); // Inicia com a primeira mensagem
       let index = 1
       
       messageInterval = setInterval( () => {
         setCoolMessage(messages[index]);
         index = (index + 1 ) % messages.length;
-      }, 4000); // A cada 4 segundos
+      }, 5000); // Atualiza a cada 5 segundos
     } else {
       setCoolMessage("");
     }
@@ -60,9 +72,16 @@ function App() {
     return `${m}:${s}`;
   };
 
+  // Iniciar com botão de estudo clicado
+  useEffect( () => {
+    switchMode(false);
+  }, []);
+
   const switchMode = (breakMode: boolean) => {
     setIsBreak(breakMode);
     SetIsRunning(false);
+    setBreakBtnImage(breakMode ? breakBtnClicked : breakBtn);
+    setWorkBtnImage(breakMode ? workBtn : workBtnClicked);
     setTimeLeft(breakMode ? 5 * 60 : 25 * 60);
   }
 
@@ -75,34 +94,36 @@ function App() {
     }
   }
 
-  return (
-    <div style={{position: 'relative'}}>
-    <div>
-      <button className='closeButton'>
-        Close
-      </button>
-    </div>
+  const containerClass = `home-container ${isRunning ? "background-green" : ""}`;
 
-    <div className='home-content'>
-      <div className='home-controls'>
-        <button className='image-button' onClick={ () => switchMode(false)}>
-          Estude!
-        </button>
-        <button className='image-button' onClick={ () => switchMode(true)}>
-          Pausinha
+  return (
+    <div className={containerClass} style={{position: 'relative'}}>
+      <div>
+        <button className='close-button'>
+          <img src={closeBtn} alt="Close" />
         </button>
       </div>
-    </div>
 
-    <p className={`cool-message ${!isRunning ? "hidden" : ""}`}>
-      { coolMessage }
-    </p>
+      <div className='home-content'>
+        <div className='home-controls'>
+          <button className='image-button' onClick={ () => switchMode(false)}>
+            <img src={workBtnImage} alt="Work" />
+          </button>
+          <button className='image-button' onClick={ () => switchMode(true)}>
+            <img src={breakBtnImage} alt="Pausinha" />
+          </button>
+        </div>
+      </div>
 
-    <h1 className='home-timer'>{formatTime(timeLeft)}</h1>
+      <p className={`cool-message ${!isRunning ? "hidden" : ""}`}>
+        { coolMessage }
+      </p>
 
-    <button className='home-button' onClick={handleClick}>
-      Começar
-    </button>
+      <h1 className='home-timer'>{formatTime(timeLeft)}</h1>
+
+      <button className='home-button' onClick={handleClick}>
+        Começar
+      </button>
 
     </div>
   );
