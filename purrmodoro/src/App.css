@@ -5,6 +5,14 @@
   font-style: normal;
 }
 
+.home-container {
+  -webkit-app-region: drag; 
+}
+
+button, img {
+  -webkit-app-region: no-drag; 
+}
+
 body {
   font-family: 'Retrograde-Regular', sans-serif;
   margin: 0;
