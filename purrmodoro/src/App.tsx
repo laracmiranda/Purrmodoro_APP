@@ -28,7 +28,7 @@ function App() {
     "Eu acredito em você!",
     "Você é incrível!",
     "Continue, vai dar certo!",
-    "Continue focado, você consegue!"
+    "Continue focado!"
   ];
 
   const breakMessages = [
@@ -102,10 +102,8 @@ function App() {
     }
   }
 
-  const containerClass = `home-container ${isRunning ? "background-green" : ""}`;
-
   return (
-    <div className={containerClass} style={{position: 'relative'}}>
+    <div className='home-container' style={{position: 'relative'}}>
       <div>
         <button className='close-button'>
           <img src={closeBtn} alt="Close" />

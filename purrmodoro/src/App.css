@@ -39,7 +39,7 @@ body {
 
 .cool-message {
   font-size: 1.25rem;
-  color: #b1cad8;
+  color: #d8aaa7;
   margin-bottom: 0.5rem;
   animation: fadeIn 1s ease-in-out;
   transition: opacity 0.8s ease;
@@ -48,10 +48,6 @@ body {
 
 .cool-message.hidden {
   opacity: 0;
-}
-
-.background-green {
-  background-image: url('./assets/background-green.png');
 }
 
 .home-controls {
@@ -72,7 +68,7 @@ body {
 
 .home-timer {
   font-size: 60px;
-  color: #d09caf;
+  color: #b05e5e;
   margin: 0;
 }
 
@@ -87,7 +83,7 @@ body {
 }
 
 .home-button img {
-  width: 60px;
+  width: 50px;
 }
 
 .close-button {
