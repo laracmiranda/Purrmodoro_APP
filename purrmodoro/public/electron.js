@@ -1,12 +1,22 @@
 const { app, BrowserWindow } = require('electron');
 const url = require('url');
 const path = require('path');
+const { ipcMain } = require('electron');
 
 function createMainWindow() {
     const mainWindow = new BrowserWindow({
         title: 'Purrmodoro',
-        widht: 400,
-        height: 430,
+        width: 400,
+        height: 400,
+        frame: false,
+        resizable: false,
+        transparent: true, // 🔑 remove o fundo do sistema
+        hasShadow: true,
+        webPreferences: {
+            preload: path.join(__dirname, "preload.js"),
+            contextIsolation: true, // Mantém isolado para melhor segurança
+            nodeIntegration: false,
+        }
     });
 
     const startUrl = url.format({
@@ -15,7 +25,13 @@ function createMainWindow() {
         slashes: true,
     });
 
-    mainWindow.loadUrl(startUrl); // Carregando o app na janela do electron
+    
+    mainWindow.setMenuBarVisibility(false); // Remove o menu
+    mainWindow.loadURL(startUrl); // Carregando o app na janela do electron
+
+    ipcMain.on('close-app', () => {
+        app.quit();
+    });
 }
 
 app.whenReady().then(createMainWindow);
