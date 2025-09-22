@@ -12,6 +12,7 @@ import workGif from "./assets/work.gif";
 import breakGif from "./assets/break.gif";
 import meowSound from "./assets/meow.mp3";
 import closeBtn from "./assets/close.png";
+import { error } from 'console';
 
 function App() {
   const [timeLeft, setTimeLeft] = useState(25*60);
@@ -22,6 +23,7 @@ function App() {
   const [coolMessage, setCoolMessage] = useState("");
   const [gifImage, setGifImage] = useState(idleGif);
   const [btnIcon, setBtnIcon] = useState(playImg);
+  const meowAudio = new Audio(meowSound);
 
   const cheerMessages = [
     "Você consegue!",
@@ -37,6 +39,15 @@ function App() {
     "Te amo <3",
     "Se estique um pouco!"
   ];
+
+  // Fechando o app pelo botão de close (x)
+  const handleCloseApp = () => {
+    if (window.electronAPI?.closeApp) {
+      window.electronAPI.closeApp();
+    } else {
+      console.warn("API do Electron não está disponível");
+    }
+  }
 
   // Atualizando as mensagens!
   useEffect( () => {
@@ -102,10 +113,23 @@ function App() {
     }
   }
 
+  // Somzinho de miau
+  useEffect( () => {
+    if (timeLeft == 0 && isRunning) {
+      meowAudio.play().catch(err => {
+        console.error("Áudio falhou:", err);
+      });
+      SetIsRunning(false);
+      setBtnIcon(playImg);
+      setGifImage(idleGif);
+      setTimeLeft(isBreak? 5 * 60 : 25 * 60);
+    }
+  }, [timeLeft]);
+
   return (
     <div className='home-container' style={{position: 'relative'}}>
       <div>
-        <button className='close-button'>
+        <button className='close-button' onClick={handleCloseApp}>
           <img src={closeBtn} alt="Close" />
         </button>
       </div>
