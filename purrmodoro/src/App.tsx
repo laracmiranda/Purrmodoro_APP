@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import './App.css';
 
 import playImg from "./assets/play.png";
@@ -12,33 +12,35 @@ import workGif from "./assets/work.gif";
 import breakGif from "./assets/break.gif";
 import meowSound from "./assets/meow.mp3";
 import closeBtn from "./assets/close.png";
-import { error } from 'console';
+import SplashScreen from './SplashScreen';
 
 function App() {
   const [timeLeft, setTimeLeft] = useState(25*60);
-  const [isRunning, SetIsRunning] = useState(false);
+  const [isRunning, setIsRunning] = useState(false);
   const [isBreak, setIsBreak] = useState(false);
   const [breakBtnImage, setBreakBtnImage] = useState(breakBtn);
   const [workBtnImage, setWorkBtnImage] = useState(workBtn);
   const [coolMessage, setCoolMessage] = useState("");
   const [gifImage, setGifImage] = useState(idleGif);
   const [btnIcon, setBtnIcon] = useState(playImg);
-  const meowAudio = new Audio(meowSound);
+  const [loading, setLoading] = useState(true);
+  const meowAudio = useMemo(() => new Audio(meowSound), []);
 
-  const cheerMessages = [
+  const messages = {
+    work: [
     "Você consegue!",
     "Eu acredito em você!",
     "Você é incrível!",
     "Continue, vai dar certo!",
     "Continue focado!"
-  ];
-
-  const breakMessages = [
+    ],
+    break: [
     "Se hidrate!",
     "Lanchinho, talvez?",
     "Te amo <3",
     "Se estique um pouco!"
-  ];
+    ]
+  };
 
   // Fechando o app pelo botão de close (x)
   const handleCloseApp = () => {
@@ -53,13 +55,13 @@ function App() {
   useEffect( () => {
     let messageInterval: NodeJS.Timeout;
     if (isRunning) {
-      const messages = isBreak ? breakMessages : cheerMessages;
-      setCoolMessage(messages[0]); // Inicia com a primeira mensagem
+      const currentMessages = isBreak ? messages.break : messages.work;
+      setCoolMessage(currentMessages[0]); // Inicia com a primeira mensagem
       let index = 1
       
       messageInterval = setInterval( () => {
-        setCoolMessage(messages[index]);
-        index = (index + 1 ) % messages.length;
+        setCoolMessage(currentMessages[index]);
+        index = (index + 1 ) % currentMessages.length;
       }, 5000); // Atualiza a cada 5 segundos
     } else {
       setCoolMessage("");
@@ -93,23 +95,28 @@ function App() {
 
   const switchMode = (breakMode: boolean) => {
     setIsBreak(breakMode);
-    SetIsRunning(false);
+    setIsRunning(false);
     setBreakBtnImage(breakMode ? breakBtnClicked : breakBtn);
     setWorkBtnImage(breakMode ? workBtn : workBtnClicked);
     setTimeLeft(breakMode ? 5 * 60 : 25 * 60);
     setGifImage(idleGif);
   }
 
+  // Reseta o tempo pro começo
+  const resetTimer = () => {
+    setIsRunning(false);
+    setBtnIcon(playImg);
+    setGifImage(idleGif);
+    setTimeLeft(isBreak? 5 * 60 : 25 * 60);
+  };
+
   const handleClick = () => {
     if (!isRunning) {
-      SetIsRunning(true);
+      setIsRunning(true);
       setGifImage (isBreak ? breakGif : workGif);
       setBtnIcon(resetImg);
     } else {
-      SetIsRunning(false);
-      setTimeLeft(isBreak? 5 * 60 : 25 * 60);
-      setGifImage(idleGif);
-      setBtnIcon(playImg);
+      resetTimer();
     }
   }
 
@@ -119,44 +126,46 @@ function App() {
       meowAudio.play().catch(err => {
         console.error("Áudio falhou:", err);
       });
-      SetIsRunning(false);
-      setBtnIcon(playImg);
-      setGifImage(idleGif);
-      setTimeLeft(isBreak? 5 * 60 : 25 * 60);
+      resetTimer();
     }
   }, [timeLeft]);
 
   return (
-    <div className='home-container' style={{position: 'relative'}}>
-      <div>
-        <button className='close-button' onClick={handleCloseApp}>
-          <img src={closeBtn} alt="Close" />
-        </button>
-      </div>
-
-      <div className='home-content'>
-        <div className='home-controls'>
-          <button className='image-button' onClick={ () => switchMode(false)}>
-            <img src={workBtnImage} alt="Work" />
-          </button>
-          <button className='image-button' onClick={ () => switchMode(true)}>
-            <img src={breakBtnImage} alt="Pausinha" />
+    <>
+    { loading ? (
+      <SplashScreen onFinish={() => setLoading(false)} />
+    ) : (
+      <div className='home-container' style={{position: 'relative'}}>
+        <div>
+          <button className='close-button' onClick={handleCloseApp}>
+            <img src={closeBtn} alt="Close" />
           </button>
         </div>
 
-      <p className={`cool-message ${!isRunning ? "hidden" : ""}`}>
-        { coolMessage }
-      </p>
+        <div className='home-content'>
+          <div className='home-controls'>
+            <button className='image-button' onClick={ () => switchMode(false)}>
+              <img src={workBtnImage} alt="Work" />
+            </button>
+            <button className='image-button' onClick={ () => switchMode(true)}>
+              <img src={breakBtnImage} alt="Pausinha" />
+            </button>
+          </div>
 
-      <h1 className='home-timer'>{formatTime(timeLeft)}</h1>
-      <img src={gifImage} alt="Time" className='gif-image' />
-      <button className='home-button' onClick={handleClick}>
-        <img src={btnIcon} alt="Button icon" />
-      </button>
+        <p className={`cool-message ${!isRunning ? "hidden" : ""}`}>
+          { coolMessage }
+        </p>
+
+        <h1 className='home-timer'>{formatTime(timeLeft)}</h1>
+        <img src={gifImage} alt="Time" className='gif-image' />
+        <button className='home-button' onClick={handleClick}>
+          <img src={btnIcon} alt="Button icon" />
+        </button>
+        </div>
       </div>
-    </div>
+    )}
+    </>
   );
-
 }
 
 export default App;
