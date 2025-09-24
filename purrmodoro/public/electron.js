@@ -55,7 +55,7 @@ function createMainWindow() {
                 splashWindow.close();
             }
             mainWindow.show();
-        }, 2000);
+        }, 2100);
     });
 
     ipcMain.on('close-app', () => {

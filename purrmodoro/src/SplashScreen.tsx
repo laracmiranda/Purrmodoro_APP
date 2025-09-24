@@ -5,11 +5,11 @@ function SplashScreen({ onFinish }: { onFinish: () => void }) {
   const [animateExit, setAnimateExit] = useState(false);
 
   useEffect(() => {
-    // Animação de entrada depois de 1.5s
-    const timer = setTimeout(() => setAnimateExit(true), 1500); 
+    // Depois de 1.5s (entrada com zoom), espera mais 0.3s antes de sair
+    const timer = setTimeout(() => setAnimateExit(true), 1800); 
 
-    // Depois de 1.5s + 0.3s -> Termina o splash
-    const exitTimer = setTimeout(() => onFinish(), 1800); 
+    // Depois de 1.8s + 0.2 (saída com zoom) -> Termina o splash
+    const exitTimer = setTimeout(() => onFinish(), 2000); 
 
     return () => {
       clearTimeout(timer);

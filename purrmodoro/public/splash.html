@@ -6,7 +6,7 @@
   <style>
     body {
       margin: 0;
-      background: white;
+      background: transparent;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -23,21 +23,20 @@
       to   { opacity: 1; transform: scale(1); }
     }
 
-    /* Saída com giro */
-    @keyframes spinOut {
-      from { opacity: 1; transform: scale(1) rotate(0deg); }
-      to   { opacity: 0; transform: scale(0.5) rotate(720deg); }
+    /* Saída rápida */
+    @keyframes fadeOutFast {
+      from { opacity: 1; transform: scale(1) }
+      to   { opacity: 0; transform: scale(0.9) }
     }
   </style>
 </head>
 <body>
   <img id="logo" src="cat.png" alt="Logo" />
   <script>
-    // Aguarda 1.5s do fadeIn, depois aplica a saída com giro
     setTimeout(() => {
       const logo = document.getElementById("logo");
-      logo.style.animation = "spinOut 1s ease-in-out forwards";
-    }, 1500);
+      logo.style.animation = "fadeOutFast 0.3s ease-in-out forwards";
+    }, 2000);
   </script>
 </body>
 </html>

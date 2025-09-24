@@ -122,14 +122,14 @@ body {
   height: auto;
 }
 
-/* Efeito ao entrar */
+/* Animação de entrada */
 .logo.enter {
   animation: fadeInZoom 1.5s ease-in-out forwards;
 }
 
-/* Efeito ao sair (giro) */
+/* Saída rápida (sem giro) */
 .logo.exit {
-  animation: spinOut 0.3s ease-in-out forwards;
+  animation: fadeOutFast 0.2s ease-in-out forwards;
 }
 
 @keyframes fadeInZoom {
@@ -143,13 +143,14 @@ body {
   }
 }
 
-@keyframes spinOut {
+@keyframes fadeOutFast {
   from {
     opacity: 1;
-    transform: scale(1) rotate(0deg);
+    transform: scale(1);
   }
   to {
     opacity: 0;
-    transform: scale(0.5) rotate(360deg);
+    transform: scale(0.9); /* encolhe só um pouquinho */
   }
 }
+
