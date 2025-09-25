@@ -13,7 +13,7 @@ Aplicativo de método pomodoro desenvolvido com React, Typescrypt, Node + Electr
 
 ## 📸 Demonstração rápida
 
-
+<img src="https://github.com/user-attachments/assets/51853940-a309-4165-b1a2-f51b836db484" alt="Purrmodoro" width="400"/>
 
 ---
 
