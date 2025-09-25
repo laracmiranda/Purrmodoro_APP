@@ -7,7 +7,9 @@
 ![Typescript](https://img.shields.io/badge/Typescript-4.9.5-pink.svg)
 ![Electron](https://img.shields.io/badge/Electron-36.2.1-pink.svg)
 
-Aplicativo de método pomodoro desenvolvido com React, Typescrypt, Node + Electron. Permite definir entre o modo de estudo e pausa, com um design amigável pixel art criado por mim! 
+Aplicativo de método pomodoro desenvolvido com React, Typescrypt, Node + Electron. Permite definir entre o modo de estudo e pausa, com um design amigável pixel art criado por mim!
+
+👉 Instale a versão para Windows: [Purrmodoro para Windows](https://github.com/laracmiranda/Purrmodoro_APP/releases/tag/v0.1.0)
 
 ## 📸 Demonstração rápida
 
