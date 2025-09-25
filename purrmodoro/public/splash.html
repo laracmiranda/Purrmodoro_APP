@@ -4,39 +4,48 @@
   <meta charset="UTF-8" />
   <title>Splash</title>
   <style>
-    body {
+    html, body {
       margin: 0;
-      background: transparent;
+      padding: 0;
+      overflow: hidden; 
+      width: 100%;
+      height: 100%;
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100vh;
-    }
-    img {
-      width: 150px;
-      animation: fadeInZoom 1.5s ease-in-out forwards;
+      background: white;
     }
 
-    /* Entrada */
+    video {
+      width: 250px;
+      animation: fadeInZoom 1.8s ease-in-out forwards;
+    }
+
     @keyframes fadeInZoom {
       from { opacity: 0; transform: scale(0.8); }
       to   { opacity: 1; transform: scale(1); }
     }
 
-    /* Saída rápida */
     @keyframes fadeOutFast {
-      from { opacity: 1; transform: scale(1) }
-      to   { opacity: 0; transform: scale(0.9) }
+      from { opacity: 1; transform: scale(1); }
+      to   { opacity: 0; transform: scale(0.9); }
     }
   </style>
 </head>
 <body>
-  <img id="logo" src="cat.png" alt="Logo" />
+  <video id="logo" autoplay playsinline>
+    <source src="me.mp4" type="video/mp4" />
+  </video>
   <script>
+    const logo = document.getElementById("logo");
+
+    logo.addEventListener("ended", () => {
+      logo.style.animation = "fadeOutFast 1s ease-in-out forwards";
+
     setTimeout(() => {
-      const logo = document.getElementById("logo");
-      logo.style.animation = "fadeOutFast 0.3s ease-in-out forwards";
-    }, 2000);
+      window.close();
+    }, 1000);
+  });
   </script>
 </body>
 </html>

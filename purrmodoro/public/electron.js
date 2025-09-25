@@ -26,7 +26,7 @@ function createMainWindow() {
         height: 400,
         frame: false,
         resizable: false,
-        transparent: true, // 🔑 remove o fundo do sistema
+        transparent: true,
         hasShadow: true,
         icon: path.join(__dirname, 'cat.ico'),
         show: false,
@@ -55,9 +55,9 @@ function createMainWindow() {
                 splashWindow.close();
             }
             mainWindow.show();
-        }, 2100);
+        }, 4000);
     });
-
+    
     ipcMain.on('close-app', () => {
         app.quit();
     });
