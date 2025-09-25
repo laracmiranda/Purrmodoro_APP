@@ -14,6 +14,7 @@ Aplicativo de método pomodoro desenvolvido com React, Typescrypt, Node + Electr
 ## 📸 Demonstração rápida
 
 
+
 ---
 
 ## 🕒 Funcionalidades
@@ -116,3 +117,5 @@ Este projeto está licenciado sob a licença **MIT**
 ---
 
 > *“Trabalhe forte quando estiver focado; descanse bem quando estiver pausado.”*
+
+<img width="100" height="100" alt="cat" src="./purrmodoro/src/assets/idle.gif" />
