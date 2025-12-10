@@ -112,7 +112,7 @@ purrmodoro/
 
 ## 📃 Licença
 
-Este projeto está licenciado sob a licença **MIT** 
+Este projeto está licenciado sob a licença **GPL-2.0** 
 
 ---
 
